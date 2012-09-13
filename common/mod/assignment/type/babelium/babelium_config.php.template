@@ -1,0 +1,12 @@
+<?php
+
+class babelium_config{
+	public $babelium_babeliumWebDomain = 'babeliumproject.com';
+	public $babelium_babeliumWebPort = '80';
+	public $babelium_babeliumApiDomain = 'babeliumproject.com/api';
+	public $babelium_babeliumApiEndPoint = 'rest.php';
+	public $babelium_babeliumApiAccessKey = '';
+	public $babelium_babeliumApiSecretAccessKey = '';
+}
+
+?>

@@ -1,0 +1,10 @@
+This placeholder video is a temporary solution while we find a suitable way to determine whether a video exists in the red5 server or not.
+Meanwhile this video should be present in red5 and be linked while the merge files are created.
+
+RED5_HOME/webapps/oflaDemo/streams/placeholder_merge.flv
+
+placeholder_merge.svg has the vectorial sources to create the image that is looped in the placeholder video. 
+But in order to create the video you need to export the vectorial image to a bitmap, such as png. You can do this opening the svg with inkScape.
+
+Here's the commandline to create a 20second video using the exported image
+ffmpeg -y -loop 1 -f image2 -i placeholder_merge.png -ar 22050 -f s16le -i /dev/zero -r 25 -t 25 -s 426x240 -g 25 -qmin 3 -b:v 512k placeholder_merge.flv
