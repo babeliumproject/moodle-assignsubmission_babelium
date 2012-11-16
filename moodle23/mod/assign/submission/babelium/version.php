@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2012061700;
-$plugin->requires  = 2012061700;
+$plugin->version   = 2012090600;
+$plugin->release   = '0.9.6 (Build: 2012090600)';
+
+$plugin->requires  = 2012062500;  // moodle 2.3
+
 $plugin->component = 'assignsubmission_babelium';
+$plugin->cron      = 0;
+$plugin->maturity  = MATURITY_BETA;
