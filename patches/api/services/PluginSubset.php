@@ -325,7 +325,7 @@ class PluginSubset{
 				       e.title 
 				FROM response r INNER JOIN exercise e ON r.fk_exercise_id = e.id
 				WHERE (e.status='Available' AND r.id = '%d')";	
-			//new SessionHandler(true);
+			//new SessionValidation(true);
 			$result = $this->db->_singleSelect($sql, $responseId);
 			return $result;
 		} catch(Exception $e){
