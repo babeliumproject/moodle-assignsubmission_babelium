@@ -9,8 +9,10 @@ The plugin is currently available in 3 languages: English, Spanish and Basque.
 
 Cloning the repository
 ----------------------
-To run the development version of Babelium first clone the git repository:
+To run the development version of Babelium first clone the git repository.
+
 	$ git clone git://github.com/babeliumproject/babeliumproject.git babeliumproject
+
 Now the entire project should be in the `babeliumproject/` directory.
 
 Installing the Mooodle 1.9 plugin
@@ -18,12 +20,12 @@ Installing the Mooodle 1.9 plugin
 Copy the `common` and `moodle19` folders to Moodle's home directory.
 	
 	$ cd babeliumproject/moodle
-	$ cp common &lt;moodle_directory&gt;/
-	$ cp moodle19 &lt;moodle_directory&gt;/
+	$ cp common <moodle_directory>
+	$ cp moodle19 <moodle_directory>
 
 If you exported the folders in the right place you should see some files listed here:
 
-	$ ls &lt;moodle_directory&gt;/mod/assignment/type/babelium
+	$ ls <moodle_directory>/mod/assignment/type/babelium
 
 
 Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site
@@ -156,10 +158,10 @@ If you have other errors, or don't know how to proceed, please don't hesitate to
 describing your problem. Please also provide a copy of your `babelium.log` file (placed in the root of your Moodle site's `moodledata` folder) 
 in the email. That way, we can have a more detailed view of the problem.
 
-Patching the Babelium server to give access to Moodle users
------------------------------------------------------------
-If you are using your own Babelium server and want to enable Moodle instances to access the exercises stored there you have
-to take additional steps to patch the server.
+Enabling Moodle support in the Babelium server
+--------------------------------------------
+If you are using your own Babelium server and want to enable Moodle instances to access the exercises stored there, you have
+to take additional steps, such as placing some API files and compiling a special version of the video player.
 
 1. Copy the Moodle API files and the Moodle site registration script:
 
