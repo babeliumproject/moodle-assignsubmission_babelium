@@ -31,8 +31,8 @@ If you exported the folders in the right place you should see some files listed 
 Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site
 registration data.
 
-	$ cp &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php.template &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php
-	$ vi &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php
+	$ cp <moodle_directory>/mod/assignment/type/babelium/babelium_config.php.template <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
+	$ vi <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
 
 **NOTE:** If you are using your own Babelium server see below for further clarification on how to enable Moodle
 site support on your Babelium server.
@@ -42,7 +42,7 @@ After copying the files and filling in the `babelium_config.php` file login with
 site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take.
 If this is not the case, browse to the following URL to force the plugin installation page to appear:
 
-	http://&lt;moodle_domain&gt;/admin
+	http://<moodle_domain>/admin
 
 ###Create a sample Babelium assignment
 Choose a random course and add a new sample Babelium assignment choosing
@@ -66,19 +66,19 @@ Installing the Mooodle 2.0-2.2 plugin
 Copy the `common` and `moodle20-22` folders to Moodle's home directory.
 	
 	$ cd babeliumproject/moodle
-	$ cp common &lt;moodle_directory&gt;/
-	$ cp moodle20-22 &lt;moodle_directory&gt;/
+	$ cp common <moodle_directory>/
+	$ cp moodle20-22 <moodle_directory>/
 
 If you exported the folders in the right place you should see some files listed here:
 
-	$ ls &lt;moodle_directory&gt;/mod/assignment/type/babelium
+	$ ls <moodle_directory>/mod/assignment/type/babelium
 
 
 Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site
 registration data.
 
-	$ cp &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php.template &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php
-	$ vi &lt;moodle_directory&gt;/mod/assignment/type/babelium/babelium_config.php
+	$ cp <moodle_directory>/mod/assignment/type/babelium/babelium_config.php.template <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
+	$ vi <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
 
 **NOTE:** If you are using your own Babelium server see below for further clarification on how to enable Moodle
 site support on your Babelium server.
@@ -88,7 +88,7 @@ After copying the files and filling in the `babelium_config.php` file login with
 site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take.
 If this is not the case, browse to the following URL to force the plugin installation page to appear:
 
-	http://&lt;moodle_domain&gt;/admin
+	http://<moodle_domain>/admin
 
 ###Troubleshooting
 * Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access
@@ -113,18 +113,18 @@ From Moodle 2.3 onwards, `assignment_type` plugins are deprecated and replaced b
 Copy the files from the `moodle23` to Moodle's home directory. 
 
 	$ cd babeliumproject/moodle
-	$ cp moodle23 &lt;moodle_directory&gt;/
+	$ cp moodle23 <moodle_directory>/
 
 If you copied the folders in the right place you should see some files here:
 
-	$ ls &lt;moodle_directory&gt;/mod/assign/submission/babelium
+	$ ls <moodle_directory>/mod/assign/submission/babelium
 
 ###Enabling the plugin
 Log in with an admin account to your Moodle site. Moodle should automatically detect that a new plugin
 is being added and prompt you for actions to take. If this is not the case, browse to the following URL 
 to force the plugin installation page to appear:
 
-	http://&lt;moodle_domain&gt;/admin
+	http://<moodle_domain>/admin
 
 After successfully installing the plugin you will see a settings page where you should input the key-pair
 provided in your moodle site registration step.
@@ -163,33 +163,33 @@ Enabling Moodle support in the Babelium server
 If you are using your own Babelium server and want to enable Moodle instances to access the exercises stored there, you have
 to take additional steps, such as placing some API files and compiling a special version of the video player.
 
-1. Copy the Moodle API files and the Moodle site registration script:
+* Copy the Moodle API files and the Moodle site registration script:
 
 	$ cd babeliumproject/moodle/patches
 	$ cp api &lt;babelium_home&gt;/
 	$ cp css &lt;babelium_home&gt;/
 	$ cp moodleapi.php &lt;babelium_directory&gt;/
 
-2. Copy the video merging script to the Babelium script folder:
+* Copy the video merging script to the Babelium script folder:
 
 	$ cd babeliumproject/moodle/patches
 	$ cp script/* &lt;babelium_script_directory&gt;/
 
-3. Copy the placeholder video to display while the videos are still not merged:
+* Copy the placeholder video to display while the videos are still not merged:
 
 	$ cd babeliumproject/moodle/patches/media
 	$ cp placeholder_merge.flv &lt;red5_home&gt;/webapps/vod/streams
 
-4. Apply the provided SQL patch to enable Moodle site registration
+* Apply the provided SQL patch to enable Moodle site registration
 
 	$ mysql -u &lt;babeliumdbuser&gt; -p
 	> use &lt;babeliumdbname&gt;;
 	> source babeliumproject/moodle/patches/sql/moodle_patch.sql;
 
-5. Fill the data of `&lt;babelium_home&gt;/api/services/utils/Config.php` (or copy from `&lt;babelium_home&gt;/services/utils/Config.php`)
+* Fill the data of `&lt;babelium_home&gt;/api/services/utils/Config.php` (or copy from `&lt;babelium_home&gt;/services/utils/Config.php`)
 and check if the paths in `&lt;babelium_home&gt;/api/services/utils/VideoProcessor.php` are right.
 
-6. Copy the standalone video player to the Babelium home directory.
+* Copy the standalone video player to the Babelium home directory.
 
 	$ cd babeliumproject/flex/standalone/player/dist
 	$ cp babeliumPlayer.* &lt;babelium_directory&gt;/
@@ -203,14 +203,17 @@ Babelium needs a special version of the video player to support embeding in Mood
 to compile the standalone player from the source code.
 
 * Download and unpack Flex SDK 4.6
+
 	$ wget http://download.macromedia.com/pub/flex/sdk/flex_sdk_4.6.zip
 	$ unzip flex_sdk_4.6.zip
 
 * Make a locale for Basque language (because it is not included by default):
+
 	$ cd &lt;flex_home&gt;/bin
 	$ ./copylocale en_US eu_ES
 
 * Fill the build.properties file for the standalone player (assuming you already clone the git repository):
+
 	$ cd babeliumproject/flex/embeddable/player
 	$ cp build.properties.template build.properties
 	$ vi build.properties
