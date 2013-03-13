@@ -44,11 +44,7 @@ Choose a random course and add a new sample Babelium assignment choosing
 	Add an activity... -> Assignments -> Babelium activity
 
 ###Troubleshooting
-* Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access key should be 40 characters long. If the lengths are wrong please contact us at support@babeliumproject.com
-
-* Check the time of your server against a public time server. The timestamp of the requests to the Babelium server is checked to minimize request replication and we drop the requests that are too skewed. Different timezones are supported but you should be within a +/- 15 minute boundary relative to the actual time.
-
-If you have other errors, or don't know how to proceed, please don't hesitate to contact us at support@babeliumproject.com describing your problem. Please also provide a copy of your `babelium.log` file (placed in the root of your Moodle site's `moodledata` folder) in the email. That way, we can have a more detailed view of the problem.
+See the section below.
 
 Installing the Mooodle 2.0-2.2 plugin
 -------------------------------------
@@ -75,11 +71,7 @@ After copying the files and filling in the `babelium_config.php` file login with
 	http://<moodle_domain>/admin
 
 ###Troubleshooting
-* Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access key should be 40 characters long. If the lengths are wrong please contact us at support@babeliumproject.com
-
-* Check the time of your server against a public time server. The timestamp of the requests to the Babelium server is checked to minimize request replication and we drop the requests that are too skewed. Different timezones are supported but you should be within a +/- 15 minute boundary relative to the actual time.
-
-If you have other errors, or don't know how to proceed, please don't hesitate to contact us at support@babeliumproject.com describing your problem. Please also provide a copy of your `babelium.log` file (placed in the root of your Moodle site's `moodledata` folder) in the email. That way, we can have a more detailed view of the problem.
+See the section below.
 
 Installing the Moodle 2.3+ plugin
 ---------------------------------
@@ -117,11 +109,7 @@ In the form that is displayed you can see Babelium alongside File and Text submi
 If you have the 1.9 or 2.0-2.2 version of Babelium's Moodle plugin installed you can upgrade all your assignment data to the new architecture to avoid the deprecated modules. Simply install Babelium's Moodle 2.3 plugin, follow the configuration steps and when you are done, use the built-in migration wizard. Check Moodle's documentation if you don't know how to proceed.
 
 ###Troubleshooting
-* Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access key should be 40 characters long. If the lengths are wrong please contact us at support@babeliumproject.com
-
-* Check the time of your server against a public time server. The timestamp of the requests to the Babelium server is checked to minimize request replication and we drop the requests that are too skewed. Different timezones are supported but you should be within a +/- 15 minute boundary relative to the actual time.
-
-If you have other errors, or don't know how to proceed, please don't hesitate to contact us at support@babeliumproject.com describing your problem. Please also provide a copy of your `babelium.log` file (placed in the root of your Moodle site's `moodledata` folder) in the email. That way, we can have a more detailed view of the problem.
+See the section below.
 
 Enabling Moodle support in the Babelium server
 --------------------------------------------
@@ -191,7 +179,25 @@ Copy the standalone video player to the Babelium home directory.
 	$ cd babeliumproject/flex/standalone/player/dist
 	$ cp babeliumPlayer.* <babelium_directory>/
 
-###Troubleshooting
-If you need help configuring the server or find any bug please don't hesitate to contact us at support@babeliumproject.com
+Troubleshooting & technical support
+-----------------------------------
+These are some common errors you might find and how to go about them.
+
+###How to contact technical support
+If you have other errors, or don't know how to proceed, please don't hesitate to contact us at support@babeliumproject.com describing your problem. Please provide the following data in your e-mail so that we can give you a better answer:
+* A copy of your `babelium.log` file (placed in the root of your Moodle site's `moodledata` folder)
+* Version of your browser. You can usually find it in the Help or About areas (e.g. __Mozilla Firefox 19.0.2__)
+* Version of Flash Player Plugin. You can find it in the `about:plugins` section of your browser (e.g. __Shockwave Flash 11.6 r602 PPAPI (out-of-process)__)
+* Moodle version. You can find it in `<moodle_directory>/version.php` (e.g. `$release  = '2.2.7+ (Build: 20130222)'`)
+* The Babelium Moodle plugin version. You can find it in `<moodle_directory>/mod/assignment/type/babelium/version.php` or `<moodle_directory>/mod/assign/submissions/babelium/version.php` (e.g. `$plugin->release = '0.9.6 (Build: 2012090600)'`);
+* The Babelium username you used to register your Moodle site in the system
+
+
+###403 Unauthorized error
+* Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access key should be 40 characters long. If the lengths are wrong please contact us to get a new set of keys.
+
+* Check the time of your server against a public time server. The timestamp of the requests to the Babelium server is checked to minimize request replication and we drop the requests that are too skewed. Different timezones are supported but you should be within a +/- 15 minute boundary relative to the actual time.
+
+* If you your key-set and server time is correct perhaps you have a problem with the domain of your moodle site. Please contact us so that we can analyze the problem.
 
 
