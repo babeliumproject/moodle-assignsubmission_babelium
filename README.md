@@ -10,33 +10,52 @@ Cloning the repository
 ----------------------
 To run the development version of Babelium first clone the git repository.
 
-	$ git clone git://github.com/babeliumproject/babeliumproject.git babeliumproject
+	$ git clone git://github.com/moodle-plugins/moodle-plugins.git babelium-moodle-plugins
 
-Now the entire project should be in the `babeliumproject/` directory.
+Now the entire project should be in the `babelium-moodle-plugins/` directory.
 
-Installing the Mooodle 1.9 plugin
----------------------------------
-Copy the `common` and `moodle19` folders to Moodle's home directory.
+Installing the Mooodle 1.9 plugins
+----------------------------------
+Copy the `common` and `moodle19/mod` folders to Moodle's home directory.
 	
-	$ cd babeliumproject/moodle
+	$ cd babelium-moodle-plugins
 	$ cp -r common/* <moodle_directory>
-	$ cp -r moodle19/* <moodle_directory>
+	$ cp -r moodle19/mod/* <moodle_directory>/mod
 
 If you exported the folders in the right place you should see some files listed here:
 
 	$ ls <moodle_directory>/mod/assignment/type/babelium
 
-Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site registration data.
+Next is providing the Moodle site registration data. There are two ways of doing this:
 
+* Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site registration data.
+
+	```sh
 	$ cp <moodle_directory>/mod/assignment/type/babelium/babelium_config.php.template <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
 	$ vi <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
+	```
+
+* Install the Babelium filter plugin and fill the data later, using the provided UI menu in (Site Administration -&gt; Modules -&gt; Filter -&gt; Manage Filters -&gt; Babelium):
+
+	```sh
+	$ cd babelium-moodle-plugins
+	$ cp -r moodle19/filter/* <moodle_directory>/filter
+	```
+
+  If you exported the folders in the right place you should see some files listed here:
+	
+	```sh
+	$ ls <moodle_directory>/filter/babelium
+	```
 
 **NOTE:** If you are using your own Babelium server see below for further clarification on how to enable Moodle site support on your Babelium server.
 
 ###Enabling the plugin
-After copying the files and filling in the `babelium_config.php` file login with an admin account to your Moodle site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take. If this is not the case, browse to the following URL to force the plugin installation page to appear:
+After you are done with the previous steps, log in with an admin account into your Moodle site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take. If this is not the case, browse to the following URL to force the plugin installation page to appear:
 
-	http://<moodle_domain>/admin
+	<http://&lt;moodle_domain&gt;/admin>
+
+If you also installed the filter plugin, the filter settings page will automatically appear after the installation is done. Fill the settings with the information you got when registering your Moodle site in babeliumproject.com and click on 'Save changes'. You can change the settings of the filter by visiting "Site Administration -&gt; Modules -&gt; Filters -&gt; Manage Filters -&gt; Babelium" using an admin account.
 
 ###Create a sample Babelium assignment
 Choose a random course and add a new sample Babelium assignment choosing
@@ -46,11 +65,11 @@ Choose a random course and add a new sample Babelium assignment choosing
 ###Troubleshooting
 See the section below.
 
-Installing the Mooodle 2.0-2.2 plugin
--------------------------------------
-Copy the `common` and `moodle20-22` folders to Moodle's home directory.
+Installing the Mooodle 2.0-2.2 plugins
+--------------------------------------
+Copy the `common` and `moodle20-22/mod` folders to Moodle's home directory.
 	
-	$ cd babeliumproject/moodle
+	$ cd babelium-moodle-plugins
 	$ cp -r common/* <moodle_directory>/
 	$ cp -r moodle20-22/* <moodle_directory>/
 
@@ -58,17 +77,36 @@ If you exported the folders in the right place you should see some files listed 
 
 	$ ls <moodle_directory>/mod/assignment/type/babelium
 
-Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site registration data.
+Next is providing the Moodle site registration data. There are two ways of doing this:
 
+* Rename or copy the `babelium_config.php.template` to `babelium_config.php` and fill the data with your Moodle site registration data.
+
+	```sh
 	$ cp <moodle_directory>/mod/assignment/type/babelium/babelium_config.php.template <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
 	$ vi <moodle_directory>/mod/assignment/type/babelium/babelium_config.php
+	```
+
+* Install the Babelium filter plugin and fill the data later, using the provided UI menu in (Site Administration -&gt; Plugins -&gt; Filter -&gt; Manage Filters -&gt; Babelium):
+
+	```sh
+	$ cd babelium-moodle-plugins
+	$ cp -r moodle20-22/filter/* <moodle_directory>/filter
+	```
+
+  If you exported the folders in the right place you should see some files listed here:
+	
+	```sh
+	$ ls <moodle_directory>/filter/babelium
+	```
 
 **NOTE:** If you are using your own Babelium server see below for further clarification on how to enable Moodle site support on your Babelium server.
 
 ###Enabling the plugin
-After copying the files and filling in the `babelium_config.php` file login with an admin account to your Moodle site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take. If this is not the case, browse to the following URL to force the plugin installation page to appear:
+After you are done with the previous steps, log in with an admin account into your Moodle site. Moodle should automatically detect that a new plugin is being added and prompt you for actions to take. If this is not the case, browse to the following URL to force the plugin installation page to appear:
 
-	http://<moodle_domain>/admin
+	<http://&lt;moodle_domain&gt;/admin>
+
+If you also installed the filter plugin, the filter settings page will automatically appear after the installation is done. Fill the settings with the information you got when registering your Moodle site in babeliumproject.com and click on 'Save changes'. You can change the settings of the filter by visiting "Site Administration -&gt; Plugins -&gt; Filters -&gt; Manage Filters -&gt; Babelium" using an admin account.
 
 ###Troubleshooting
 See the section below.
@@ -193,11 +231,72 @@ If you have other errors, or don't know how to proceed, please don't hesitate to
 * The Babelium username you used to register your Moodle site in the system
 
 
-###403 Unauthorized error
+###Babelium Error 403. Wrong authorization credentials
 * Check the lenghts of the key-set you were given. The access key should be 20 characters long and the private access key should be 40 characters long. If the lengths are wrong please contact us to get a new set of keys.
 
 * Check the time of your server against a public time server. The timestamp of the requests to the Babelium server is checked to minimize request replication and we drop the requests that are too skewed. Different timezones are supported but you should be within a +/- 15 minute boundary relative to the actual time.
 
 * If you your key-set and server time is correct perhaps you have a problem with the domain of your moodle site. Please contact us so that we can analyze the problem.
+
+###Babelium Error 400. Malformed request error
+* If you are using your own Babelium server, take a look at the log file of ZendRestJson.php (by default it is placed in /tmp/moodle.log) to see if you have a permission issue in your Babelium filesystem.
+
+* If you are using babeliumproject.com please contact us stating your problem, we might have some kind of issue in our own server.
+
+###Babelium Error 500. Internal server error
+* Very unlikely to occur. Could happen when the Babelium server uses an old version of PHP (&lt; PHP 5.0)
+
+###How to completely uninstall Babelium plugins
+This is useful when the plugin isn't correctly installed. With these steps you can completely remove the Babelium plugin, in order to do a fresh installation.
+
+Remove all the plugin files and folders (they should be in one of the following locations):
+
+```sh
+rm -r <moodle_home>/mod/assignment/type/babelium
+rm -r <moodle_home>/filter/babelium
+
+rm -r <moodle_home>/mod/assign/submission/babelium
+```
+
+Now, in your moodle database, check if there is a table called `mdl_assignsubmission_babelium`, if so, drop that table.
+
+```sql
+DROP TABLE mdl_assignsubmission_babelium;
+```
+
+Also check in the `mdl_config_plugin` table for any values related to babelium and delete them:
+
+```sql
+DELETE FROM mdl_config_plugin WHERE plugin='assignsubmission_babelium';
+```
+
+Clean the `mdl_config` table of any Babelium filter plugin values (if you installed the filter plugin):
+
+```sql
+DELETE FROM mdl_config WHERE name LIKE 'filter_babelium%';
+```
+
+If `mdl_config` has a row called `textfilters` (this row tells Moodle 1.9 which Filter plugins are enabled) remove that part of the field that belongs to Babelium (the enabled filters are comma-separated):
+
+```sql
+SELECT value FROM mdl_config WHERE name='textfilters' AND value LIKE '%babelium%';
+```
+
+If you are in Moodle 2.0-2.2 `mdl_filter_active` and `mdl_filter_config` tables might contain entries related to Babelium. If so delete them:
+
+```sql
+DELETE FROM mdl_filter_active WHERE filter LIKE '%babelium%';
+
+DELETE FROM mdl_filter_config WHERE filter LIKE '%babelium%';
+```
+
+Let's also clean any trace left in the `mdl_upgrade_log`:
+
+```sql
+DELETE FROM mdl_upgrade_log WHERE plugin='assignment_babelium' OR plugin='assignsubmission_babelium';
+```
+
+With that, we should have removed all the traces of the failed plugin install. Please refer to the previous sections to do a fresh install of your plugin.
+
 
 
