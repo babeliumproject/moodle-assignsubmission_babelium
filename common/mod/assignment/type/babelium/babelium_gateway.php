@@ -85,16 +85,15 @@ class babelium_gateway{
 	 */
 	public function newServiceCall($method,$parameters = null){
 
-		global $USER, $CFG, $BCFG;
-
-		$config_fields = array('babelium_babeliumWebDomain','babelium_babeliumWebPort','babelium_babeliumApiDomain','babelium_babeliumApiEndPoint','babelium_babeliumApiAccessKey','babelium_babeliumApiSecretAccessKey');
+		global $USER, $CFG;
 		
-		if(!$BCFG || !is_object($BCFG))
-			$this->display_error('babeliumErrorConfigParameters');
+		//Test if connection settings have the correct format
+		$config_fields = array('filter_babelium_serverdomain', 'filter_babelium_serverpot', 'filter_babelium_apidomain', 'filter_babelium_apiendpoint', 'filter_babelium_accesskey', 'filter_babelium_secretaccesskey');
+		
 		foreach($config_fields as $cfield){
-			if(!isset($BCFG->$cfield) || empty($BCFG->$cfield))
+			if(!isset($CFG->$cfield) || empty($CFG->$cfield))
 				$this->display_error('babeliumErrorConfigParameters');
-			if(($cfield == 'babelium_babeliumApiAccessKey' && strlen($BCFG->$cfield)!=20 ) || ($cfield == 'babelium_babeliumApiSecretAccessKey' && strlen($BCFG->$cfield)!=40))
+			if(($cfield == 'filter_babelium_accesskey' && strlen($CFG->$cfield)!=20 ) || ($cfield == 'filter_babelium_secretaccesskey' && strlen($CFG->$cfield)!=40))
 				$this->display_error('babeliumErrorConfigParameters');
 		}
 		
@@ -109,16 +108,16 @@ class babelium_gateway{
 		//Date timestamp formated following one of the standards allowed for HTTP 1.1 date headers (DATE_RFC1123)
 		$date = date("D, d M Y H:i:s O");
 		$request['header']['date'] = $date;
-		$signature = "BMP ".$BCFG->babelium_babeliumApiAccessKey.":".$this->generateAuthorization($method, $date);
+		$signature = "BMP ".$CFG->filter_babelium_accesskey.":".$this->generateAuthorization($method, $date, $CFG->filter_babelium_secretaccesskey);
 		$request['header']['authorization'] = $signature;
 		
 		//See this workaround if the query parameters are written with &amp; : http://es.php.net/manual/es/function.http-build-query.php#102324
 		$request = http_build_query($request,'', '&');
 		
 		
-		$web_domain = $BCFG->babelium_babeliumWebDomain;
-		$api_domain = $BCFG->babelium_babeliumApiDomain;
-		$api_endpoint = $BCFG->babelium_babeliumApiEndPoint;
+		$web_domain = $CFG->filter_babelium_serverdomain;
+		$api_domain = $CFG->filter_babelium_apidomain;
+		$api_endpoint = $CFG->filter_babelium_apiendpoint;
 		$referer = $commProtocol . $api_domain . '/' . $api_endpoint;
 		$query_string = $referer . '?' . $method;
 		
@@ -137,7 +136,7 @@ class babelium_gateway{
 		$this->parseCurlOutput($result);
 		
 		//Add the service call to the activity log to better track down possible problems
-		$this->activity_log($USER->id,$USER->username, "service_call",$query_string, $method, is_array($parameters)?implode('&',$parameters):$parameters, $date, $_SERVER['HTTP_HOST'], $signature, $this->_curlHeaderHttpStatusCode, $this->_curlHeaderHttpStatusMessage);
+		$this->activity_log($USER->id, $USER->username, "service_call",$query_string, $method, is_array($parameters)?implode('&',$parameters):$parameters, $date, $_SERVER['HTTP_HOST'], $signature, $this->_curlHeaderHttpStatusCode, $this->_curlHeaderHttpStatusMessage);
 		
 		//If the body of the response is empty or the HTTP status code is not 200 display an error message
 		if(!$this->_curlResponse || $this->_curlHeaderHttpStatusCode != 200)
@@ -162,11 +161,10 @@ class babelium_gateway{
 	 * @return String $signature
 	 * 		The authorization header of the request
 	 */
-	private function generateAuthorization($method, $date){
-		global $BCFG;
+	private function generateAuthorization($method, $date, $key){
 		$stringtosign = utf8_encode($method . "\n" . $date . "\n" . $_SERVER['HTTP_HOST']);
 		    	
-		$digest = hash_hmac("sha256", $stringtosign, $BCFG->babelium_babeliumApiSecretAccessKey, false);
+		$digest = hash_hmac("sha256", $stringtosign, $key, false);
 		$signature = base64_encode($digest);	
 		return $signature;
 	}

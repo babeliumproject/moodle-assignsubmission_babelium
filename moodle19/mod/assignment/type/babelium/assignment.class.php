@@ -24,12 +24,8 @@
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot . '/mod/assignment/lib.php');
 
-require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_config.php');
-require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_widget.php');
 
-//Make the assignment_type configuration available throughout the plugin
-global $BCFG;
-$BCFG = new babelium_config();
+require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_widget.php');
 
 /**
  * Extend the base assignment class for Babelium assignments
@@ -41,6 +37,9 @@ class assignment_babelium extends assignment_base {
 	function assignment_babelium($cmid='staticonly', $assignment=NULL, $cm=NULL, $course=NULL) {
 		parent::assignment_base($cmid, $assignment, $cm, $course);
 		$this->type = 'babelium';
+		
+		//Parse the settings file if the filter plugin is not available
+		babelium_parse_settings();
 	}
 
 	/**
@@ -242,14 +241,14 @@ class assignment_babelium extends assignment_base {
 	 * @param unknown_type $return
 	 */
 	function print_student_answer($userid, $return=false){
-		global $CFG, $BCFG;
+		global $CFG;
 		if (!$submission = $this->get_submission($userid)) {
 			return '';
 		}
 
 		$link = '/mod/assignment/type/babelium/file.php?id='.$this->cm->id.'&amp;userid='.$submission->userid;
 		$action = 'file'.$userid;
-		$image_tag = '<img src="http://'.$BCFG->babelium_babeliumWebDomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
+		$image_tag = '<img src="http://'.$CFG->filter_babelium_serverdomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
 		$popup = link_to_popup_window ($link, $action, $image_tag, 500, 680, get_string('submission', 'assignment'), 'none', true);
 
 		$output = '<div class="files">'.
@@ -264,7 +263,7 @@ class assignment_babelium extends assignment_base {
 	 * @param unknown_type $return
 	 */
 	function print_user_files($userid, $return=false) {
-		global $CFG, $BCFG;
+		global $CFG;
 		
 		if (!$submission = $this->get_submission($userid)) {
 			return '';
@@ -272,7 +271,7 @@ class assignment_babelium extends assignment_base {
 		
 		$link = '/mod/assignment/type/babelium/file.php?id='.$this->cm->id.'&amp;userid='.$submission->userid;
 		$action = 'file'.$userid;
-		$image_tag = '<img src="http://'.$BCFG->babelium_babeliumWebDomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
+		$image_tag = '<img src="http://'.$CFG->filter_babelium_serverdomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
 		$popup = link_to_popup_window ($link, $action, $image_tag, 500, 680, get_string('submission', 'assignment'), 'none', true);
 
 		//$output = '<div class="files">'.

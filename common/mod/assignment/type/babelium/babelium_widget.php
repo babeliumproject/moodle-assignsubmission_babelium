@@ -24,6 +24,28 @@
 require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_gateway.php');
 
 /**
+ * Checks if the Babelium filter plugin is available and enabled. If it is not, it tries to grab the
+ * settings from the babelium_config.php file (if available).
+ */
+function babelium_parse_settings(){
+	global $CFG;
+	
+	$babelium_cfg_path = $CFG->dirroot . '/mod/assignment/type/babelium/babelium_config.php';
+	
+	if( is_readable($babelium_cfg_path) && !filter_is_enabled('filter/babelium') ){
+		require_once $babelium_cfg_path;
+		$bcfg = new babelium_config();
+		
+		$CFG->filter_babelium_serverdomain    = $bcfg->babelium_babeliumWebDomain;
+		$CFG->filter_babelium_serverpot       = $bcfg->babelium_babeliumWebPort;
+		$CFG->filter_babelium_apidomain       = $bcfg->babelium_babeliumApiDomain;
+		$CFG->filter_babelium_apiendpoint     = $bcfg->babelium_babeliumApiEndPoint; 
+		$CFG->filter_babelium_accesskey       = $bcfg->babelium_babeliumApiAccessKey;
+		$CFG->filter_babelium_secretaccesskey = $bcfg->babelium_babeliumApiSecretAccessKey;	
+	}		
+}
+
+/**
  * Returns html code for displaying the babelium widget with the provided information
  *
  * @param int $mode
