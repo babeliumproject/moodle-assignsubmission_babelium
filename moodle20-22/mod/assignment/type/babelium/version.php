@@ -30,9 +30,9 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->requires  = 2010112400; // See http://docs.moodle.org/dev/Moodle_versions
 
 // Internal version name (Format: release date of the plugin and version within that date)
-$plugin->version   = 2012060600;
+$plugin->version   = 2012090600;
 // Human-readable version name
-$plugin->release   = '0.9.5 (Build: 2012060600)';
+$plugin->release   = '0.9.6 (Build: 2012090600)';
 
 $plugin->cron      = 0;
 $plugin->component = 'assignment_babelium';

@@ -24,15 +24,16 @@
 require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_gateway.php');
 
 /**
- * Checks if the Babelium filter plugin is available and enabled. If it is not, it tries to grab the
- * settings from the babelium_config.php file (if available).
+ * Grabs the settings of Babelium from either the configuration file or the filter plugin 
+ * (is they are available)
  */
 function babelium_parse_settings(){
 	global $CFG;
 	
 	$babelium_cfg_path = $CFG->dirroot . '/mod/assignment/type/babelium/babelium_config.php';
 	
-	if( is_readable($babelium_cfg_path) && !filter_is_enabled('filter/babelium') ){
+	if( is_readable($babelium_cfg_path) && !filter_plugin_installed('filter/babelium') )
+	{
 		require_once $babelium_cfg_path;
 		$bcfg = new babelium_config();
 		
@@ -42,7 +43,53 @@ function babelium_parse_settings(){
 		$CFG->filter_babelium_apiendpoint     = $bcfg->babelium_babeliumApiEndPoint; 
 		$CFG->filter_babelium_accesskey       = $bcfg->babelium_babeliumApiAccessKey;
 		$CFG->filter_babelium_secretaccesskey = $bcfg->babelium_babeliumApiSecretAccessKey;	
-	}		
+	} 
+	//else 
+	//{
+	//	print "Babelium filter is installed, reading the connection settings from there.";
+	//}	
+}
+
+/**
+ * Checks if the provided filter path is installed
+ * 
+ * @param String $filterpath
+ * 		The filter path in the format "folder/plugin_name" to check for files
+ * @return boolean
+ * 		true if the filter is installed, false otherwise
+ */
+function filter_plugin_installed($filterpath){
+	global $CFG;
+	$pluginpath = "$CFG->dirroot/$filterpath/filter.php";
+	return is_readable($pluginpath);
+}
+
+/**
+ * Checks if the provided filter path is installed and enabled (check "Site Administration -> Plugins -> Filters" or 
+ * "Site Administration -> Modules -> Filters" area to see if a filter is enabled) in the moodle platform. Uses the built-in
+ * function filter_is_enabled() for Moodle 2.x and raw checkups for Moodle 1.9.
+ * 
+ * @param String $filterpath
+ * 		The filter path in the format "folder/plugin_name" to check for files
+ * @return boolean
+ * 		true if the filter is installed and enabled, false otherwise
+ */
+function filter_plugin_enabled($filterpath){
+	global $CFG;
+	// filter_is_enabled() function belongs to Moodle 2.x
+	if(function_exists('filter_is_enabled')){
+		return filter_is_enabled($filterpath);
+	} else {
+		// get all the currently selected filters
+		if (!empty($CFG->textfilters)) {
+			$activefilters = explode(',', $CFG->textfilters);
+		} else {
+			$activefilters = array();
+		}
+		// check if filter plugin location is readable
+		$pluginpath = "$CFG->dirroot/$filterpath/filter.php";
+		return is_readable($pluginpath) && in_array($filterpath, $activefilters);
+	}
 }
 
 /**
@@ -59,7 +106,7 @@ function babelium_parse_settings(){
  */
 function babelium_html_output($mode, $info, $subs){
 	
-	global $SESSION, $CFG, $BCFG;
+	global $SESSION, $CFG;
 
 	$exinfo = '""'; $exsubs = '""'; $rsinfo = '""'; $rssubs = '""';
 
@@ -87,7 +134,7 @@ function babelium_html_output($mode, $info, $subs){
 			<noscript><p>Either scripts and active content are not permitted to run or Adobe Flash Player version 10.2.0 or greater is not installed.</p></noscript>';
 	$lang = isset($SESSION->lang) ? $SESSION->lang : '';
 	$html_content .= '<script language="javascript" type="text/javascript">
-				init("'.$BCFG->babelium_babeliumWebDomain.'", "'.$lang.'", '.$exinfo.', '.$exsubs.', '. $rsinfo .', '. $rssubs .');
+				init("'.$CFG->filter_babelium_serverdomain.'", "'.$lang.'", '.$exinfo.', '.$exsubs.', '. $rsinfo .', '. $rssubs .');
 			  </script>';
 	return $html_content;
 }
@@ -111,7 +158,6 @@ function babelium_get_available_exercise_list(){
  * 		An associative array with the info, the roles, the languages and the subtitle lines of the exercise, or false on error/when empty query results
  */
 function babelium_get_exercise_data($exerciseid){
-	global $BCFG;
 	$g = new babelium_gateway();
 	$exerciseInfo = $g->newServiceCall('getExerciseById', array("id"=>$exerciseid));
 
@@ -181,7 +227,7 @@ function babelium_get_response_data($responseid){
  * 		The duration of the exercise in seconds
  * @param int $subtitleId
  * 		The identificator of the subtitles that were used on the recording process
- * @param String $recordedRole
+ * @param string $recordedRole
  * 		The character name that was impersonated in the recording process 
  * @param String $responseName
  * 		The hash name of the recording file
@@ -200,3 +246,59 @@ function babelium_save_response_data($exerciseId, $exerciseDuration, $subtitleId
 	return $responsedata = $g->newServiceCall('admSaveResponse', $parameters);
 }
 
+/* HELPER FUNCTIONS */
+
+/**
+ * Filters the provided exercise list keeping only the exercises that match the given locale
+ * 
+ * @param array $exerciseList
+ * 		An array of exercise objects
+ * @param  string $locale
+ * 		A standard Locale ID (LCID) tag. For example: en_US, fr_FR, en_GB, es_ES
+ * @return array $filteredList
+ * 		A subset of the provided list with exercises that match the requested locale ID
+ */
+function babelium_filter_exercise_list_by_locale($exerciseList, $locale){
+	$filteredList = array();
+	$sortingArray = array();
+	$sortingField = "title";
+	if (!$exerciseList || !$locale || !is_array($exerciseList)) return;
+	foreach($exerciseList as $exercise){
+		if($exercise['language'] == $locale) $filteredList[] = $exercise;
+	}
+	$filteredList = babelium_sort_list_by_field($filteredList, "title");
+
+	return $filteredList;
+}
+
+/**
+ * Sorts the provided object array using the provided field
+ * 
+ * @param array $list
+ * 		An unordered list of objects that need be sorted
+ * @param mixed $field
+ * 		The field of the object by which the list if going to be sorted
+ * @return array $sortedList
+ * 		The same list given as input but ordered by the specified field
+ */
+function babelium_sort_list_by_field($list, $field){
+	if (!$list || !$field || !is_array($list)) return;
+	$sortedList = $list;
+	$sortingArray = array();
+	foreach($sortedList as $listItem){
+		foreach($listItem as $key=>$value){
+			if(!isset($sortingArray[$key])){
+				$sortingArray[$key] = array();
+			}
+			//We force the lowercase conversion of the values to perform a case insensitive sorting
+			$sortingArray[$key][] = mb_strtolower($value,'UTF-8');
+		}
+	}
+	//TODO
+	//Use locale aware string sorting to avoid acutes being misplaced. Need to figure out where to get the locale to use.
+	//setlocale();
+	//array_multisort($sortingArray[$field], SORT_ASC, SORT_LOCALE_STRING, $sortedList);
+
+	array_multisort($sortingArray[$field], SORT_ASC, SORT_STRING, $sortedList);
+	return $sortedList;
+}

@@ -26,12 +26,8 @@ require_once($CFG->dirroot . '/mod/assignment/lib.php');
 //require_once($CFG->libdir . '/portfoliolib.php');
 //require_once($CFG->libdir . '/filelib.php');
 
-require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_config.php');
-require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_widget.php');
 
-//Make the assignment_type configuration available throughout the plugin
-global $BCFG;
-$BCFG = new babelium_config();
+require_once($CFG->dirroot . '/mod/assignment/type/babelium/babelium_widget.php');
 
 /**
  * Extend the base assignment class for Babelium assignments
@@ -43,6 +39,7 @@ class assignment_babelium extends assignment_base {
 	function assignment_babelium($cmid='staticonly', $assignment=NULL, $cm=NULL, $course=NULL) {
 		parent::assignment_base($cmid, $assignment, $cm, $course);
 		$this->type = 'babelium';
+		babelium_parse_settings();
 	}
 
 	/**
@@ -260,14 +257,14 @@ class assignment_babelium extends assignment_base {
 	 * @param unknown_type $return
 	 */
 	function print_student_answer($userid, $return=false){
-		global $CFG, $OUTPUT, $BCFG;
+		global $CFG, $OUTPUT;
 		if (!$submission = $this->get_submission($userid)) {
 			return '';
 		}
 
 		$link = new moodle_url("/mod/assignment/type/babelium/file.php?id={$this->cm->id}&userid={$submission->userid}");
 		$action = new popup_action('click', $link, 'file'.$userid, array('height' => 500, 'width' => 680));
-		$image_tag = '<img src="http://'.$BCFG->babelium_babeliumWebDomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
+		$image_tag = '<img src="http://'.$CFG->filter_babelium_serverdomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
 		$popup = $OUTPUT->action_link($link, $image_tag, $action, array('title'=>get_string('submission', 'assignment')));
 
         	$output = '<div class="files">'.
@@ -283,7 +280,7 @@ class assignment_babelium extends assignment_base {
 	 * 	Defaults to false. If true the list is returned rather than printed
 	 */
 	function print_user_files($userid=0, $return=false) {
-		global $CFG, $USER, $OUTPUT, $BCFG;
+		global $CFG, $USER, $OUTPUT;
 	
 		if (!$userid) {
 			if (!isloggedin()) {
@@ -301,7 +298,7 @@ class assignment_babelium extends assignment_base {
 		
 		$link = new moodle_url("/mod/assignment/type/babelium/file.php?id={$this->cm->id}&userid={$submission->userid}");
 		$action = new popup_action('click', $link, 'file'.$userid, array('height' => 500, 'width' => 680));
-		$image_tag = '<img src="http://'.$BCFG->babelium_babeliumWebDomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
+		$image_tag = '<img src="http://'.$CFG->filter_babelium_serverdomain.'/resources/images/thumbs/'.$submission->data2.'/default.jpg" alt="submission" border="0" height="45" width="60"/>';
 		$popup = $OUTPUT->action_link($link, $image_tag . get_string('popupinnewwindow','assignment'), $action, array('title'=>get_string('submission', 'assignment')));
 
 		$wordcount = '<p id="wordcount" style="vertical-align=middle;">'. $popup . '&nbsp;</p>';
