@@ -52,7 +52,7 @@ class VideoCollage{
 	public function makeResponseCollages(){
 		$responsesToMerge = false;
 		//Only retrieve the responses made by the users that use the Moodle Babelium plugin
-		$sql = "SELECT r.file_identifier as responseName 
+		$sql = "SELECT DISTINCT(r.file_identifier) as responseName 
 		FROM response r INNER JOIN users u ON r.fk_user_id=u.ID 
                INNER JOIN moodle_api um ON u.ID=um.fk_user_id";
 		
