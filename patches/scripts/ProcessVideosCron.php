@@ -1,10 +1,10 @@
 <?php
 
 echo "\n\n";
-require_once 'UploadExerciseDAO.php';
+require_once 'MediaTask.php';
 echo "[".date("d/m/Y H:i:s")."] Commencing video processing task...\n";
-$uploadExerciseDAO = new UploadExerciseDAO();
-$uploadExerciseDAO->processPendingVideos();
+$mt = new MediaTask();
+$mt->processPendingVideos();
 
 echo "\n\n";
 require_once 'VideoCollage.php';
