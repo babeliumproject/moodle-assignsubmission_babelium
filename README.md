@@ -165,10 +165,16 @@ Copy the video merging script to the Babelium script folder:
 	$ cd babelium-moodle-plugins/patches
 	$ cp script/* <babelium_script_directory>/
 
-Copy the placeholder video to display while the videos are still not merged:
+Copy the placeholder video that will be displayed while the videos are still not merged:
 
 	$ cd babelium-moodle-plugins/patches/media
 	$ cp placeholder_merge.flv <red5_home>/webapps/vod/streams
+
+[Inkscape]: http://inkscape.org/
+
+**NOTE:** The provided placeholder video file displays a message in Basque, Spanish and English (the message reads "Your video is still processing. Sorry for the inconvenience."). If you wish to display another message or want to display a message in some other language you can make your own placeholde video. For that purpose, we provide the original vectorial image (the video loop source) of placeholder_merge.flv in `babelium-moodle-plugins/patches/media/placeholder_merge.svg`. You can edit this file using the open source application Inkscape. When you are done editing, you have to export the SVG file as PNG (File -> Export Bitmap...) to use it as an input for ffmpeg. The following ffmpeg command creates a 20 second video using the PNG image we exported as loop source:
+
+	$ ffmpeg -y -loop 1 -f image2 -i placeholder_merge.png -ar 22050 -f s16le -i /dev/zero -r 25 -t 25 -s 426x240 -g 25 -qmin 3 -b:v 512k placeholder_merge.flv
 
 Apply the provided SQL patch to enable Moodle site registration
 
