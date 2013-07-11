@@ -35,13 +35,13 @@ $string['serverdomain_help']='Die Babelium Server Domain, in der beide Übungen 
 $string['serverport']='Server-Port';
 $string['serverport_help']='Die Port-Nummer, mit der Sie auf den Server zugreifen';
 $string['apidomain']='Domain API';
-$string['apidomain_help']='Die Domain-RPC API, mit dem Benutzer auf die  auf dem Server gespeicherten Daten von Babelium zugreifen können';
+$string['apidomain_help']='Die Domain-RPC API, mit dem Nutzer auf die  auf dem Server gespeicherten Daten von Babelium zugreifen können';
 $string['apiendpoint']='API Endpunkt';
 $string['apiendpoint_help']='Eine Route, die zu der Domain des API gehört, und verwendet wird, um alle Anfragen zu verwalten';
 $string['accesskey']='Access Key';
-$string['accesskey_help']='Ein eindeutiger Schlüssel, der alle Anfragen, die der Benutzer über den Server-RPC API Babelium durchführt identifiziert';
+$string['accesskey_help']='Ein eindeutiger Schlüssel, der alle Anfragen, die der Nutzer über den Server-RPC API Babelium durchführt identifiziert';
 $string['secretaccesskey']='Geheimer Access Key';
-$string['secretaccesskey_help']='Der geheime Schlüssel wird verwendet, um die Identität des Benutzers bei den Anfragen zu verifizieren. Niemals ohne Verschlüsselungsmechanismus in lokalen Skripten \'zu verwenden';
+$string['secretaccesskey_help']='Der geheime Schlüssel wird verwendet, um die Identität des Nutzers bei den Anfragen zu verifizieren. Niemals ohne Verschlüsselungsmechanismus in lokalen Skripten \'zu verwenden';
 
 $string['babeliumAvailableRecordableExercises']='Übungen die zur Verfügung stehen';
 $string['babeliumAvailableRecordableExercises_help']='Wählen Sie die Übung, die  Ihren Schülern zur weiteren Beurteilung zuweisen möchten';
