@@ -83,13 +83,14 @@ function getAPIKeys($user, $domain, $raw_domain){
 		return;
 	}
 	
-	$sql = "INSERT INTO moodle_api VALUES ('%s','%s','%s',%d, DEFAULT, '%s')"; 
+	$sql = "INSERT INTO moodle_api (`access_key`, `secret_access_key`, `allowed_referer`, `raw_referer`, `fk_user_id`, `date_created`)
+		VALUES ('%s', '%s', '%s', '%s', '%s', DEFAULT)"; 
 	$userId = $query_result->ID;
 	$accesskey = str_makerand(20,true,true,false);
 	$secretaccesskey = str_makerand(40,true,true,true);
 
 	$db->_startTransaction();
-	$insert_result = $db->_update($sql,$accesskey,$secretaccesskey,$domain,$userId,$raw_domain);
+	$insert_result = $db->_update($sql,$accesskey,$secretaccesskey,$domain,$raw_domain,$userId);
 	if(!$insert_result){
 		$db->_failedTransaction();
 		return;
