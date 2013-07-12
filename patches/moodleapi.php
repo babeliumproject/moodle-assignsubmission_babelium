@@ -90,7 +90,8 @@ function getAPIKeys($user, $domain, $raw_domain){
 	$secretaccesskey = str_makerand(40,true,true,true);
 
 	$db->_startTransaction();
-	$insert_result = $db->_update($sql,$accesskey,$secretaccesskey,$domain,$raw_domain,$userId);
+
+	$insert_result = $db->_insert($sql,$accesskey,$secretaccesskey,$domain,$raw_domain,$userId);
 	if(!$insert_result){
 		$db->_failedTransaction();
 		return;
