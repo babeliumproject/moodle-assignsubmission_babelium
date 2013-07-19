@@ -4,7 +4,7 @@
 
 Here you will find the latest versions of the plug-ins. Sometimes it takes a while for the plug-ins. to be added to the official Moodle plug-in repository so if you want to test the latest features this is the way to go.
 
-The plug-in is currently available in 3 languages: English, Spanish and Basque.
+The plug-in is currently available in 3 languages: English, Spanish, Basque and German.
 
 Cloning the repository
 ----------------------
@@ -279,10 +279,10 @@ Now, in your Moodle database, check if there is a table called `mdl_assignsubmis
 DROP TABLE mdl_assignsubmission_babelium;
 ```
 
-Also check in the `mdl_config_plug-in` table for any values related to babelium and delete them:
+Also check in the `mdl_config_plugin` table for any values related to babelium and delete them:
 
 ```sql
-DELETE FROM mdl_config_plug-in WHERE plug-in='assignsubmission_babelium';
+DELETE FROM mdl_config_plugin WHERE plugin='assignsubmission_babelium';
 ```
 
 Clean the `mdl_config` table of any Babelium filter plug-in values (if you installed the filter plug-in):
@@ -308,7 +308,7 @@ DELETE FROM mdl_filter_config WHERE filter LIKE '%babelium%';
 Let's also clean any trace left in the `mdl_upgrade_log`:
 
 ```sql
-DELETE FROM mdl_upgrade_log WHERE plug-in='assignment_babelium' OR plug-in='assignsubmission_babelium';
+DELETE FROM mdl_upgrade_log WHERE plugin='assignment_babelium' OR plugin='assignsubmission_babelium';
 ```
 
 With that, we should have removed all the traces of the failed plug-in install. Please refer to the previous sections to do a fresh install of your plug-in.
