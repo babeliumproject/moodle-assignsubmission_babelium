@@ -38,7 +38,7 @@ function babelium_parse_settings(){
 		$bcfg = new babelium_config();
 		
 		$CFG->filter_babelium_serverdomain    = $bcfg->babelium_babeliumWebDomain;
-		$CFG->filter_babelium_serverpot       = $bcfg->babelium_babeliumWebPort;
+		$CFG->filter_babelium_serverport      = $bcfg->babelium_babeliumWebPort;
 		$CFG->filter_babelium_apidomain       = $bcfg->babelium_babeliumApiDomain;
 		$CFG->filter_babelium_apiendpoint     = $bcfg->babelium_babeliumApiEndPoint; 
 		$CFG->filter_babelium_accesskey       = $bcfg->babelium_babeliumApiAccessKey;

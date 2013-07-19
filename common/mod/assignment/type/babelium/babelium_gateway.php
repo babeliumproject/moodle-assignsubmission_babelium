@@ -88,7 +88,12 @@ class babelium_gateway{
 		global $USER, $CFG;
 		
 		//Test if connection settings have the correct format
-		$config_fields = array('filter_babelium_serverdomain', 'filter_babelium_serverpot', 'filter_babelium_apidomain', 'filter_babelium_apiendpoint', 'filter_babelium_accesskey', 'filter_babelium_secretaccesskey');
+		$config_fields = array('filter_babelium_serverdomain', 
+							   'filter_babelium_serverport',
+							   'filter_babelium_apidomain', 
+							   'filter_babelium_apiendpoint', 
+							   'filter_babelium_accesskey', 
+							   'filter_babelium_secretaccesskey');
 		
 		foreach($config_fields as $cfield){
 			if(!isset($CFG->$cfield) || empty($CFG->$cfield))
