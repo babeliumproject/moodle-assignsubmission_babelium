@@ -68,7 +68,12 @@ class assign_submission_babelium extends assign_submission_plugin {
 	$exercises = array();
 	$exercisesMenu = array();
 
+        try {
 	$exercises = babeliumsubmission_get_available_exercise_list();
+        } catch (Exception $e) {
+            $msg = html_writer::span($e->getMessage(), 'error');
+            $mform->addElement('static', 'assignsubmission_babelium_servererror', '', $msg);
+        }
 	if($exercises && count($exercises) > 0){
 		foreach ($exercises as $exercise) {
 			$exercisesMenu[$exercise['id']] = $exercise['title'];
@@ -88,6 +93,7 @@ class assign_submission_babelium extends assign_submission_plugin {
 				   get_string('babeliumNoExerciseAvailable', 'assignsubmission_babelium'));
 		$mform->addElement('hidden', 'noexerciseavailable', 1);
 	}
+        $mform->setType('noexerciseavailable', PARAM_INT);
   }
 
     /**
@@ -97,7 +103,9 @@ class assign_submission_babelium extends assign_submission_plugin {
      * @return bool
      */
     public function save_settings(stdClass $data) {
-        $this->set_config('exerciseid', $data->assignsubmission_babelium_exerciseid);
+        if (isset($data->assignsubmission_babelium_exerciseid)) {
+            $this->set_config('exerciseid', $data->assignsubmission_babelium_exerciseid);
+        }
         return true;
     }
 
@@ -273,7 +281,7 @@ class assign_submission_babelium extends assign_submission_plugin {
      * @param stdClass $submission The submission
      * @return array - return an array of files indexed by filename
      */
-    public function get_files(stdClass $submission) {
+    public function get_files(stdClass $submission, stdClass $user) {
         $result = array();
         $fs = get_file_storage();
 
