@@ -93,6 +93,7 @@ class assign_submission_babelium extends assign_submission_plugin {
 				   get_string('babeliumNoExerciseAvailable', 'assignsubmission_babelium'));
 		$mform->addElement('hidden', 'noexerciseavailable', 1);
 	}
+        $mform->setType('noexerciseavailable', PARAM_INT);
   }
 
     /**
@@ -102,7 +103,9 @@ class assign_submission_babelium extends assign_submission_plugin {
      * @return bool
      */
     public function save_settings(stdClass $data) {
-        $this->set_config('exerciseid', $data->assignsubmission_babelium_exerciseid);
+        if (isset($data->assignsubmission_babelium_exerciseid)) {
+            $this->set_config('exerciseid', $data->assignsubmission_babelium_exerciseid);
+        }
         return true;
     }
 
